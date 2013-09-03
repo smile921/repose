@@ -9,9 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
-import org.openrepose.components.apivalidator.servlet.config.BaseValidatorConfiguration;
 import org.openrepose.components.apivalidator.servlet.config.ValidatorConfiguration2;
-import org.openrepose.components.apivalidator.servlet.config.BaseValidatorItem;
 import org.openrepose.components.apivalidator.servlet.config.ValidatorItem2;
 
 import java.net.MalformedURLException;
@@ -22,7 +20,12 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(Enclosed.class)
 public class ApiValidatorHandlerFactoryTest {
@@ -122,7 +125,7 @@ public class ApiValidatorHandlerFactoryTest {
         
         @Test
         public void shouldClearMatchedValidator() throws MalformedURLException {
-            String wadl2Path = new URL(instance.getWadlPath(wadl2)).toString();
+            String wadl2Path = instance.getWadlPath(wadl2);
             ConfigurationResource resource = mock(ConfigurationResource.class);
             when(resource.name()).thenReturn(wadl2Path);
             
@@ -134,7 +137,7 @@ public class ApiValidatorHandlerFactoryTest {
         
         @Test
         public void shouldClearAllValidatorsIfNoMatch() throws MalformedURLException {
-            String wadl2Path = new URL(instance.getWadlPath("doesn'texist.wadl")).toString();
+            String wadl2Path = instance.getWadlPath("doesn'texist.wadl");
             ConfigurationResource resource = mock(ConfigurationResource.class);
             when(resource.name()).thenReturn(wadl2Path);
             
